@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Documento de Visão — CatSaver</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 16mm 15mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; font-size: 10pt; line-height: 1.45; color: #1d1d1d; margin: 0; }
+  h1 { font-size: 20pt; margin: 0 0 2mm; }
+  h2 { font-size: 14pt; margin: 8mm 0 3mm; padding-bottom: 1.5mm; border-bottom: 2px solid #333; break-after: avoid; }
+  h2.nova { break-before: page; margin-top: 0; }
+  h3 { font-size: 11.5pt; margin: 5mm 0 2mm; break-after: avoid; }
+  h4 { font-size: 10.5pt; margin: 4mm 0 1.5mm; break-after: avoid; }
+  p { margin: 0 0 2.5mm; }
+  ul, ol { margin: 0 0 2.5mm; padding-left: 6mm; }
+  li { margin-bottom: 0.8mm; }
+  table { width: 100%; border-collapse: collapse; margin: 1mm 0 3.5mm; font-size: 9pt; }
+  th, td { border: 1px solid #9a9a9a; padding: 1.3mm 2mm; text-align: left; vertical-align: top; }
+  th { background: #e9e9e9; }
+  tr { break-inside: avoid; }
+  .sub { color: #555; font-size: 11pt; margin-bottom: 6mm; }
+  .ident td:first-child { width: 32%; font-weight: 600; background: #f4f4f4; }
+  .tag { display: inline-block; padding: 0 1.6mm; border-radius: 2mm; font-size: 8pt; font-weight: 600; border: 1px solid #777; }
+  .uc { break-inside: avoid; }
+  .uc td:first-child { width: 22%; font-weight: 600; background: #f4f4f4; }
+  .fig { break-inside: avoid; margin: 2mm 0 4mm; }
+  .fig svg { width: 100%; height: auto; display: block; border: 1px solid #ccc; background: #fff; }
+  .legenda { font-size: 8.5pt; color: #555; margin-top: 1mm; }
+  .nota { border-left: 3px solid #777; background: #f4f4f4; padding: 2mm 3mm; font-size: 9pt; margin: 2mm 0 3.5mm; }
+  code { font-family: Consolas, monospace; font-size: 8.8pt; background: #f0f0f0; padding: 0 1mm; }
+  .wf { break-inside: avoid; margin-bottom: 5mm; }
+  /* wireframes */
+  svg text { font-family: "Segoe UI", Arial, sans-serif; }
+  .fr { fill: #fff; stroke: #333; stroke-width: 1.2; }
+  .nav { fill: #e6e6e6; stroke: #333; stroke-width: 1; }
+  .fld { fill: #fff; stroke: #8a8a8a; }
+  .btn { fill: #e2e2e2; stroke: #555; }
+  .btnp { fill: #4a4a4a; stroke: #333; }
+  .card { fill: #f5f5f5; stroke: #aaa; }
+  .msg { fill: #f0f0f0; stroke: #666; stroke-dasharray: 3 2; }
+  .t { font-size: 8.5px; fill: #333; }
+  .s { font-size: 7px; fill: #666; }
+  .w { font-size: 8.5px; fill: #fff; font-weight: 600; }
+  .h { font-size: 12px; font-weight: 700; fill: #222; }
+  .b { font-weight: 700; }
+  .lbl { font-size: 9px; font-weight: 700; fill: #555; }
+  .ln { stroke: #bbb; }
+  /* MER */
+  .ent { fill: #fff; stroke: #333; stroke-width: 1.2; }
+  .enth { fill: #dcdcdc; stroke: #333; stroke-width: 1.2; }
+  .rel { stroke: #333; stroke-width: 1.2; fill: none; }
+  .card-n { font-size: 10px; font-weight: 700; fill: #000; }
+  .reln { font-size: 8px; font-style: italic; fill: #555; }
+</style>
+</head>
+<body>
+
+<h1>Documento de Visão — CatSaver</h1>
+<div class="sub">Projeto Integrador Extensionista I · Análise e Desenvolvimento de Sistemas</div>
+
+<!-- ============================ 1 ============================ -->
+<h2>1. Identificação e contexto</h2>
+
+<h3>1.1 Identificação</h3>
+<table class="ident">
+  <tr><td>Aluno</td><td>Igor de Oliveira da Silva</td></tr>
+  <tr><td>Curso</td><td>Análise e Desenvolvimento de Sistemas</td></tr>
+  <tr><td>Instituição</td><td>Universidade de Marília (UNIMAR)</td></tr>
+  <tr><td>Disciplina</td><td>Projeto Integrador Extensionista I</td></tr>
+  <tr><td>ONG parceira</td><td>CatSaver (opção B do guia: ONG própria)</td></tr>
+  <tr><td>Nome do sistema</td><td>CatSaver — Gestão de Resgates e Adoções</td></tr>
+  <tr><td>Repositório</td><td>https://github.com/igordeoliveira95/cat-saver-unimar</td></tr>
+  <tr><td>Data</td><td>27/10/2026</td></tr>
+</table>
+
+<h3>1.2 A organização</h3>
+<p>A <b>CatSaver</b> é uma ONG de proteção animal que resgata gatos abandonados ou em situação de risco, cuida da saúde deles (vermifugação, vacinação e castração) e encontra um novo lar por meio de adoção responsável. Atua na cidade de Marília (SP) e região.</p>
+<ul>
+  <li><b>Estrutura:</b> 2 coordenadoras, que tomam as decisões e aprovam as adoções, e cerca de 15 voluntários, que fazem resgates, levam os gatos ao veterinário e cuidam dos lares temporários.</li>
+  <li><b>Volume:</b> em média 40 gatos sob cuidado ao mesmo tempo, cerca de 20 resgates e 12 adoções por mês.</li>
+  <li><b>Recursos:</b> funciona com doações de apoiadores e parceria com uma clínica veterinária, que cobra preço reduzido. Não tem equipe de TI nem orçamento para software pago.</li>
+</ul>
+
+<h3>1.3 O problema</h3>
+<p>Hoje o controle é feito em uma planilha compartilhada e em um grupo de WhatsApp. Na entrevista com a coordenação apareceram estes problemas:</p>
+<ul>
+  <li><b>Informação desatualizada:</b> a planilha é editada por várias pessoas e o status do gato muitas vezes não é atualizado. Em média 2 vezes por mês um gato já adotado continua sendo divulgado como disponível, e interessados são atendidos à toa.</li>
+  <li><b>Histórico perdido:</b> os dados dos adotantes ficam espalhados entre planilha, fichas de papel e conversas de WhatsApp. Quando um gato é devolvido, leva-se cerca de 30 minutos para descobrir quem o adotou e quando.</li>
+  <li><b>Relatório demorado:</b> o relatório mensal de prestação de contas aos apoiadores (resgates, adoções e gatos em cuidado) é montado à mão e leva cerca de <b>3 horas</b> por mês.</li>
+  <li><b>Dados pessoais expostos:</b> CPF, telefone e endereço dos adotantes ficam visíveis para qualquer voluntário com acesso à planilha.</li>
+</ul>
+<p><b>Se o sistema fizesse uma única coisa</b>, segundo a coordenação, seria mostrar com certeza quais gatos estão disponíveis e quem adotou cada um.</p>
+
+<h3>1.4 Stakeholders</h3>
+<table>
+  <tr><th>Stakeholder</th><th>Interesse no sistema</th></tr>
+  <tr><td>Coordenação da ONG</td><td>Controlar adoções, proteger os dados dos adotantes e gerar a prestação de contas.</td></tr>
+  <tr><td>Voluntários</td><td>Cadastrar os gatos resgatados e consultar o status deles pelo celular.</td></tr>
+  <tr><td>Adotantes</td><td>Ter os dados tratados com segurança e um processo de adoção organizado.</td></tr>
+  <tr><td>Apoiadores e doadores</td><td>Receber relatórios confiáveis sobre o uso das doações.</td></tr>
+</table>
+
+<h3>1.5 Objetivo do sistema</h3>
+<p>Oferecer um sistema web, acessível pelo navegador no computador e no celular, que centralize o cadastro dos gatos, dos adotantes e das adoções, mostre o status real de cada gato e gere o relatório mensal automaticamente.</p>
+
+<!-- ============================ 2 ============================ -->
+<h2 class="nova">2. Requisitos</h2>
+
+<h3>2.1 Requisitos funcionais</h3>
+<table>
+  <tr><th style="width:9%">ID</th><th>Descrição</th></tr>
+  <tr><td>RF01</td><td>O sistema deve permitir que o coordenador e o voluntário se autentiquem com e-mail e senha.</td></tr>
+  <tr><td>RF02</td><td>O sistema deve permitir que o voluntário cadastre um gato com nome, sexo, data de nascimento aproximada, pelagem, data e local do resgate, se é castrado, se é vacinado, status e observações.</td></tr>
+  <tr><td>RF03</td><td>O sistema deve permitir que o voluntário liste os gatos, filtrando por status (em tratamento, disponível, adotado) e buscando pelo nome.</td></tr>
+  <tr><td>RF04</td><td>O sistema deve permitir que o voluntário edite os dados e o status de um gato.</td></tr>
+  <tr><td>RF05</td><td>O sistema deve permitir que o coordenador cadastre um adotante com nome, CPF, e-mail, telefone, endereço e tipo de moradia.</td></tr>
+  <tr><td>RF06</td><td>O sistema deve permitir que o coordenador registre uma adoção ligando um adotante a um ou mais gatos disponíveis, mudando o status deles para “adotado”.</td></tr>
+  <tr><td>RF07</td><td>O sistema deve permitir que o coordenador registre a devolução de um gato adotado, com data e motivo, voltando o status para “disponível”.</td></tr>
+  <tr><td>RF08</td><td>O sistema deve permitir que o coordenador liste as adoções filtrando por período.</td></tr>
+  <tr><td>RF09</td><td>O sistema deve permitir que o coordenador gere o relatório mensal com o número de resgates, adoções, devoluções e gatos em cuidado.</td></tr>
+  <tr><td>RF10</td><td>O sistema deve permitir que o coordenador cadastre e desative usuários voluntários.</td></tr>
+  <tr><td>RF11</td><td>O sistema deve permitir que o coordenador exporte a listagem de adoções em arquivo CSV.</td></tr>
+  <tr><td>RF12</td><td>O sistema deve permitir que qualquer visitante veja, sem login, uma página pública com os gatos disponíveis para adoção.</td></tr>
+</table>
+
+<h3>2.2 Requisitos não funcionais</h3>
+<table>
+  <tr><th style="width:9%">ID</th><th style="width:20%">Categoria</th><th>Descrição mensurável</th></tr>
+  <tr><td>RNF01</td><td>Desempenho</td><td>As telas de listagem carregam em menos de 3 segundos em conexão 4G com até 1.000 gatos cadastrados.</td></tr>
+  <tr><td>RNF02</td><td>Segurança</td><td>Senhas são armazenadas com hash bcrypt (custo 10 ou maior). Todas as rotas da API, exceto <code>/api/health</code> e <code>/api/auth/login</code>, exigem sessão ativa. Após 5 tentativas de login erradas em 15 minutos, o e-mail fica bloqueado por 15 minutos.</td></tr>
+  <tr><td>RNF03</td><td>Privacidade (LGPD)</td><td>CPF, telefone e endereço do adotante só aparecem para o perfil coordenador. O voluntário vê apenas o nome do adotante.</td></tr>
+  <tr><td>RNF04</td><td>Usabilidade</td><td>Um voluntário que nunca usou o sistema cadastra um gato em menos de 3 minutos, sem treinamento.</td></tr>
+  <tr><td>RNF05</td><td>Compatibilidade</td><td>Funciona nas duas últimas versões do Chrome, Edge e Firefox, em telas de 360 px de largura até desktop, sem rolagem horizontal.</td></tr>
+  <tr><td>RNF06</td><td>Acessibilidade</td><td>Todo campo tem rótulo visível, o contraste entre texto e fundo é de no mínimo 4,5:1 e botões têm pelo menos 44 × 44 px.</td></tr>
+</table>
+
+<h3>2.3 Priorização MoSCoW</h3>
+<table>
+  <tr><th style="width:18%">Categoria</th><th style="width:22%">Requisitos</th><th>Justificativa</th></tr>
+  <tr><td><b>Must have</b></td><td>RF01, RF02, RF05, RF06</td><td>Sem autenticação, cadastro de gatos, cadastro de adotantes e registro de adoção o sistema não resolve o problema principal: saber quais gatos estão disponíveis e quem adotou cada um.</td></tr>
+  <tr><td><b>Should have</b></td><td>RF03, RF04, RF07, RF08, RF09, RF10</td><td>Importantes para o dia a dia e para a prestação de contas, mas o sistema já entrega valor sem eles na primeira versão.</td></tr>
+  <tr><td><b>Could have</b></td><td>RF11, RF12</td><td>Desejáveis se sobrar tempo: exportação CSV e vitrine pública de adoção.</td></tr>
+  <tr><td><b>Won't have</b></td><td>—</td><td>Fora do escopo, por decisão consciente: aplicativo mobile nativo, recebimento de doações em dinheiro (pagamentos online), prontuário veterinário completo e integração com Instagram ou WhatsApp.</td></tr>
+</table>
+
+<!-- ============================ 3 ============================ -->
+<h2 class="nova">3. Modelagem de dados</h2>
+
+<h3>3.1 Modelo entidade-relacionamento (MER)</h3>
+<p>O sistema segue a mesma forma do ConectaDoa: uma entidade de pessoas (<b>Adotante</b>), uma de registros ligada a ela (<b>Adocao</b>) e uma de itens com relação N:N (<b>Gato</b>), resolvida pela tabela intermediária <b>Adocao_Gato</b>. A entidade <b>Usuario</b> guarda quem usa o sistema (coordenadores e voluntários). Uma adoção pode incluir mais de um gato (irmãos de ninhada são adotados juntos com frequência) e um gato pode aparecer em mais de uma adoção ao longo do tempo, se for devolvido e adotado de novo.</p>
+
+<div class="fig">
+<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Adotante -->
+  <rect class="enth" x="20" y="20" width="150" height="20"/><text class="t b" x="28" y="34">Adotante</text>
+  <rect class="ent" x="20" y="40" width="150" height="176"/>
+  <text class="s" x="28" y="54"><tspan class="b">PK</tspan> id_adotante</text>
+  <text class="s" x="28" y="67">nome</text>
+  <text class="s" x="28" y="80">cpf (único)</text>
+  <text class="s" x="28" y="93">email (único)</text>
+  <text class="s" x="28" y="106">telefone</text>
+  <text class="s" x="28" y="119">cep</text>
+  <text class="s" x="28" y="132">rua</text>
+  <text class="s" x="28" y="145">numero</text>
+  <text class="s" x="28" y="158">bairro</text>
+  <text class="s" x="28" y="171">cidade</text>
+  <text class="s" x="28" y="184">uf</text>
+  <text class="s" x="28" y="197">tipo_moradia</text>
+  <text class="s" x="28" y="210">criado_em</text>
+
+  <!-- Adocao -->
+  <rect class="enth" x="275" y="20" width="150" height="20"/><text class="t b" x="283" y="34">Adocao</text>
+  <rect class="ent" x="275" y="40" width="150" height="86"/>
+  <text class="s" x="283" y="54"><tspan class="b">PK</tspan> id_adocao</text>
+  <text class="s" x="283" y="67"><tspan class="b">FK</tspan> id_adotante</text>
+  <text class="s" x="283" y="80"><tspan class="b">FK</tspan> id_usuario</text>
+  <text class="s" x="283" y="93">data_adocao</text>
+  <text class="s" x="283" y="106">observacoes</text>
+  <text class="s" x="283" y="119">criado_em</text>
+
+  <!-- Adocao_Gato -->
+  <rect class="enth" x="530" y="20" width="150" height="20"/><text class="t b" x="538" y="34">Adocao_Gato</text>
+  <rect class="ent" x="530" y="40" width="150" height="60"/>
+  <text class="s" x="538" y="54"><tspan class="b">PK, FK</tspan> id_adocao</text>
+  <text class="s" x="538" y="67"><tspan class="b">PK, FK</tspan> id_gato</text>
+  <text class="s" x="538" y="80">data_devolucao</text>
+  <text class="s" x="538" y="93">motivo_devolucao</text>
+
+  <!-- Usuario -->
+  <rect class="enth" x="275" y="230" width="150" height="20"/><text class="t b" x="283" y="244">Usuario</text>
+  <rect class="ent" x="275" y="250" width="150" height="99"/>
+  <text class="s" x="283" y="264"><tspan class="b">PK</tspan> id_usuario</text>
+  <text class="s" x="283" y="277">nome</text>
+  <text class="s" x="283" y="290">email (único)</text>
+  <text class="s" x="283" y="303">senha_hash</text>
+  <text class="s" x="283" y="316">perfil</text>
+  <text class="s" x="283" y="329">ativo</text>
+  <text class="s" x="283" y="342">criado_em</text>
+
+  <!-- Gato -->
+  <rect class="enth" x="530" y="180" width="150" height="20"/><text class="t b" x="538" y="194">Gato</text>
+  <rect class="ent" x="530" y="200" width="150" height="189"/>
+  <text class="s" x="538" y="214"><tspan class="b">PK</tspan> id_gato</text>
+  <text class="s" x="538" y="227"><tspan class="b">FK</tspan> id_usuario</text>
+  <text class="s" x="538" y="240">nome</text>
+  <text class="s" x="538" y="253">sexo</text>
+  <text class="s" x="538" y="266">data_nascimento_aprox</text>
+  <text class="s" x="538" y="279">pelagem</text>
+  <text class="s" x="538" y="292">data_resgate</text>
+  <text class="s" x="538" y="305">local_resgate</text>
+  <text class="s" x="538" y="318">castrado</text>
+  <text class="s" x="538" y="331">vacinado</text>
+  <text class="s" x="538" y="344">status</text>
+  <text class="s" x="538" y="357">observacoes</text>
+  <text class="s" x="538" y="370">criado_em</text>
+
+  <!-- Relacionamentos -->
+  <line class="rel" x1="170" y1="70" x2="275" y2="70"/>
+  <text class="card-n" x="176" y="65">1</text><text class="card-n" x="262" y="65">N</text>
+  <text class="reln" x="205" y="84">realiza</text>
+
+  <line class="rel" x1="425" y1="70" x2="530" y2="70"/>
+  <text class="card-n" x="431" y="65">1</text><text class="card-n" x="517" y="65">N</text>
+  <text class="reln" x="462" y="84">contém</text>
+
+  <line class="rel" x1="605" y1="100" x2="605" y2="180"/>
+  <text class="card-n" x="611" y="114">N</text><text class="card-n" x="611" y="176">1</text>
+  <text class="reln" x="612" y="145">refere-se a</text>
+
+  <line class="rel" x1="350" y1="230" x2="350" y2="126"/>
+  <text class="card-n" x="356" y="224">1</text><text class="card-n" x="356" y="140">N</text>
+  <text class="reln" x="357" y="182">registra</text>
+
+  <line class="rel" x1="425" y1="300" x2="530" y2="300"/>
+  <text class="card-n" x="431" y="295">1</text><text class="card-n" x="517" y="295">N</text>
+  <text class="reln" x="458" y="314">cadastra</text>
+</svg>
+<div class="legenda">Figura 1 — MER do CatSaver. Adocao e Gato têm relação N:N, resolvida pela tabela intermediária Adocao_Gato.</div>
+</div>
+
+<table>
+  <tr><th>Relacionamento</th><th style="width:12%">Cardinalidade</th><th>Como vira tabela</th></tr>
+  <tr><td>Adotante <i>realiza</i> Adocao</td><td>1:N</td><td>A FK fica no lado N: <code>id_adotante</code> em Adocao.</td></tr>
+  <tr><td>Usuario <i>registra</i> Adocao</td><td>1:N</td><td>A FK fica no lado N: <code>id_usuario</code> em Adocao (quem registrou).</td></tr>
+  <tr><td>Usuario <i>cadastra</i> Gato</td><td>1:N</td><td>A FK fica no lado N: <code>id_usuario</code> em Gato (quem cadastrou).</td></tr>
+  <tr><td>Adocao <i>contém</i> Gato</td><td>N:N</td><td>Tabela intermediária Adocao_Gato com as duas FKs e os dados da ligação (data e motivo de devolução).</td></tr>
+</table>
+
+<div class="nota"><b>Decisões de modelagem.</b> Relatório não é entidade: é calculado na hora a partir de Gato, Adocao e Adocao_Gato. Voluntário e coordenador ficam na mesma tabela Usuario, diferenciados pelo campo <code>perfil</code>, para não repetir dados. O endereço do adotante é separado em campos atômicos (CEP, rua, número, bairro, cidade, UF). Regra de negócio: um gato só pode ter uma adoção ativa por vez, isto é, uma linha em Adocao_Gato com <code>data_devolucao</code> vazia.</div>
+
+<h3>3.2 Dicionário de atributos</h3>
+
+<h4>Usuario</h4>
+<table>
+  <tr><th style="width:24%">Atributo</th><th style="width:20%">Tipo</th><th>Restrição / descrição</th></tr>
+  <tr><td>id_usuario</td><td>INT</td><td>PK, auto incremento</td></tr>
+  <tr><td>nome</td><td>VARCHAR(100)</td><td>Obrigatório</td></tr>
+  <tr><td>email</td><td>VARCHAR(150)</td><td>Obrigatório, único; usado no login</td></tr>
+  <tr><td>senha_hash</td><td>CHAR(60)</td><td>Obrigatório; hash bcrypt, nunca a senha em texto</td></tr>
+  <tr><td>perfil</td><td>ENUM('coordenador','voluntario')</td><td>Obrigatório; padrão 'voluntario'</td></tr>
+  <tr><td>ativo</td><td>BOOLEAN</td><td>Obrigatório; padrão verdadeiro. Usuário desativado não faz login</td></tr>
+  <tr><td>criado_em</td><td>DATETIME</td><td>Preenchido automaticamente</td></tr>
+</table>
+
+<h4>Adotante</h4>
+<table>
+  <tr><th style="width:24%">Atributo</th><th style="width:20%">Tipo</th><th>Restrição / descrição</th></tr>
+  <tr><td>id_adotante</td><td>INT</td><td>PK, auto incremento</td></tr>
+  <tr><td>nome</td><td>VARCHAR(100)</td><td>Obrigatório</td></tr>
+  <tr><td>cpf</td><td>CHAR(11)</td><td>Obrigatório, único; só dígitos; dígitos verificadores validados</td></tr>
+  <tr><td>email</td><td>VARCHAR(150)</td><td>Obrigatório, único</td></tr>
+  <tr><td>telefone</td><td>VARCHAR(15)</td><td>Obrigatório</td></tr>
+  <tr><td>cep</td><td>CHAR(8)</td><td>Opcional; só dígitos</td></tr>
+  <tr><td>rua</td><td>VARCHAR(120)</td><td>Obrigatório</td></tr>
+  <tr><td>numero</td><td>VARCHAR(10)</td><td>Obrigatório (aceita “s/n”)</td></tr>
+  <tr><td>bairro</td><td>VARCHAR(80)</td><td>Obrigatório</td></tr>
+  <tr><td>cidade</td><td>VARCHAR(80)</td><td>Obrigatório</td></tr>
+  <tr><td>uf</td><td>CHAR(2)</td><td>Obrigatório; sigla do estado</td></tr>
+  <tr><td>tipo_moradia</td><td>ENUM('casa','apartamento','outro')</td><td>Obrigatório; usado na análise da adoção (telas de proteção)</td></tr>
+  <tr><td>criado_em</td><td>DATETIME</td><td>Preenchido automaticamente</td></tr>
+</table>
+
+<h4>Gato</h4>
+<table>
+  <tr><th style="width:24%">Atributo</th><th style="width:20%">Tipo</th><th>Restrição / descrição</th></tr>
+  <tr><td>id_gato</td><td>INT</td><td>PK, auto incremento</td></tr>
+  <tr><td>id_usuario</td><td>INT</td><td>FK → Usuario; obrigatório; quem cadastrou</td></tr>
+  <tr><td>nome</td><td>VARCHAR(60)</td><td>Obrigatório</td></tr>
+  <tr><td>sexo</td><td>ENUM('macho','femea')</td><td>Obrigatório</td></tr>
+  <tr><td>data_nascimento_aprox</td><td>DATE</td><td>Opcional; não pode ser posterior a data_resgate</td></tr>
+  <tr><td>pelagem</td><td>VARCHAR(40)</td><td>Opcional (ex.: preto, frajola, tricolor)</td></tr>
+  <tr><td>data_resgate</td><td>DATE</td><td>Obrigatório; não pode ser futura</td></tr>
+  <tr><td>local_resgate</td><td>VARCHAR(150)</td><td>Obrigatório (bairro ou referência)</td></tr>
+  <tr><td>castrado</td><td>BOOLEAN</td><td>Obrigatório; padrão falso</td></tr>
+  <tr><td>vacinado</td><td>BOOLEAN</td><td>Obrigatório; padrão falso</td></tr>
+  <tr><td>status</td><td>ENUM('em_tratamento','disponivel','adotado')</td><td>Obrigatório; padrão 'em_tratamento'. Muda para 'adotado' ao registrar adoção</td></tr>
+  <tr><td>observacoes</td><td>TEXT</td><td>Opcional (temperamento, cuidados especiais)</td></tr>
+  <tr><td>criado_em</td><td>DATETIME</td><td>Preenchido automaticamente</td></tr>
+</table>
+
+<h4>Adocao</h4>
+<table>
+  <tr><th style="width:24%">Atributo</th><th style="width:20%">Tipo</th><th>Restrição / descrição</th></tr>
+  <tr><td>id_adocao</td><td>INT</td><td>PK, auto incremento</td></tr>
+  <tr><td>id_adotante</td><td>INT</td><td>FK → Adotante; obrigatório</td></tr>
+  <tr><td>id_usuario</td><td>INT</td><td>FK → Usuario; obrigatório; coordenador que registrou</td></tr>
+  <tr><td>data_adocao</td><td>DATE</td><td>Obrigatório; não pode ser futura</td></tr>
+  <tr><td>observacoes</td><td>TEXT</td><td>Opcional</td></tr>
+  <tr><td>criado_em</td><td>DATETIME</td><td>Preenchido automaticamente</td></tr>
+</table>
+
+<h4>Adocao_Gato (tabela intermediária)</h4>
+<table>
+  <tr><th style="width:24%">Atributo</th><th style="width:20%">Tipo</th><th>Restrição / descrição</th></tr>
+  <tr><td>id_adocao</td><td>INT</td><td>PK composta; FK → Adocao</td></tr>
+  <tr><td>id_gato</td><td>INT</td><td>PK composta; FK → Gato</td></tr>
+  <tr><td>data_devolucao</td><td>DATE</td><td>Opcional; vazio enquanto o gato está com o adotante. Não pode ser anterior a data_adocao</td></tr>
+  <tr><td>motivo_devolucao</td><td>VARCHAR(255)</td><td>Obrigatório quando data_devolucao estiver preenchida</td></tr>
+</table>
+
+<!-- ============================ 4 ============================ -->
+<h2 class="nova">4. Casos de uso</h2>
+
+<h3>4.1 Atores e lista de casos de uso</h3>
+<table>
+  <tr><th style="width:22%">Ator</th><th>Descrição</th></tr>
+  <tr><td>Voluntário</td><td>Usuário com perfil 'voluntario'. Cadastra e consulta gatos.</td></tr>
+  <tr><td>Coordenador</td><td>Usuário com perfil 'coordenador'. Faz tudo o que o voluntário faz e também cadastra adotantes, registra adoções e gera relatórios.</td></tr>
+</table>
+<table>
+  <tr><th style="width:12%">ID</th><th style="width:34%">Caso de uso</th><th style="width:22%">Ator</th><th>Requisito</th></tr>
+  <tr><td>UC01</td><td>Autenticar no Sistema</td><td>Voluntário, Coordenador</td><td>RF01</td></tr>
+  <tr><td>UC02</td><td>Cadastrar Gato</td><td>Voluntário, Coordenador</td><td>RF02</td></tr>
+  <tr><td>UC03</td><td>Cadastrar Adotante</td><td>Coordenador</td><td>RF05</td></tr>
+  <tr><td>UC04</td><td>Registrar Adoção</td><td>Coordenador</td><td>RF06</td></tr>
+  <tr><td>UC05</td><td>Gerar Relatório Mensal</td><td>Coordenador</td><td>RF09</td></tr>
+</table>
+
+<h3>4.2 Descrição dos casos de uso</h3>
+
+<table class="uc">
+  <tr><th colspan="2">UC01 — Autenticar no Sistema</th></tr>
+  <tr><td>Ator</td><td>Voluntário ou Coordenador</td></tr>
+  <tr><td>Pré-condição</td><td>O usuário está cadastrado e ativo.</td></tr>
+  <tr><td>Fluxo principal</td><td><ol>
+    <li>O usuário acessa o endereço do sistema.</li>
+    <li>O sistema exibe a tela de Login.</li>
+    <li>O usuário informa e-mail e senha e clica em “Entrar”.</li>
+    <li>O sistema confere o e-mail e compara a senha com o hash guardado.</li>
+    <li>O sistema cria a sessão e abre a Listagem de Gatos.</li>
+  </ol></td></tr>
+  <tr><td>Fluxos alternativos</td><td>
+    <b>3a.</b> Campo vazio: o sistema destaca o campo e mostra “Preencha o e-mail e a senha”. Volta ao passo 3.<br>
+    <b>4a.</b> E-mail ou senha incorretos: o sistema mostra “E-mail ou senha incorretos”, sem dizer qual dos dois errou. Volta ao passo 3.<br>
+    <b>4b.</b> Usuário desativado: o sistema mostra “Acesso desativado. Procure a coordenação.” e encerra.<br>
+    <b>4c.</b> Quinta tentativa errada em 15 minutos: o sistema bloqueia o e-mail por 15 minutos e avisa o usuário.
+  </td></tr>
+  <tr><td>Pós-condição</td><td>Sessão ativa com o perfil do usuário; ou nenhuma sessão criada.</td></tr>
+</table>
+
+<table class="uc">
+  <tr><th colspan="2">UC02 — Cadastrar Gato</th></tr>
+  <tr><td>Ator</td><td>Voluntário ou Coordenador</td></tr>
+  <tr><td>Pré-condição</td><td>Usuário autenticado (UC01).</td></tr>
+  <tr><td>Fluxo principal</td><td><ol>
+    <li>Na Listagem de Gatos, o usuário clica em “+ Novo gato”.</li>
+    <li>O sistema exibe o formulário de Cadastro de Gato, com o status “Em tratamento” já selecionado.</li>
+    <li>O usuário preenche nome, sexo, data de nascimento aproximada, pelagem, data e local do resgate, castrado, vacinado, status e observações.</li>
+    <li>O usuário clica em “Salvar”.</li>
+    <li>O sistema valida os campos obrigatórios e as datas.</li>
+    <li>O sistema grava o gato, registrando o usuário que o cadastrou.</li>
+    <li>O sistema mostra “Gato cadastrado com sucesso” e volta à Listagem com o novo gato no topo.</li>
+  </ol></td></tr>
+  <tr><td>Fluxos alternativos</td><td>
+    <b>4a.</b> O usuário clica em “Cancelar”: o sistema volta à Listagem sem gravar.<br>
+    <b>5a.</b> Campo obrigatório vazio: o sistema destaca o campo e mostra “Campo obrigatório”. Volta ao passo 3.<br>
+    <b>5b.</b> Data do resgate no futuro: o sistema mostra “A data do resgate não pode ser futura”. Volta ao passo 3.<br>
+    <b>5c.</b> Data de nascimento posterior ao resgate: o sistema mostra “A data de nascimento deve ser anterior ao resgate”. Volta ao passo 3.
+  </td></tr>
+  <tr><td>Pós-condição</td><td>Gato registrado com o status escolhido; ou nada alterado.</td></tr>
+</table>
+
+<table class="uc">
+  <tr><th colspan="2">UC03 — Cadastrar Adotante</th></tr>
+  <tr><td>Ator</td><td>Coordenador</td></tr>
+  <tr><td>Pré-condição</td><td>Usuário autenticado com perfil coordenador.</td></tr>
+  <tr><td>Fluxo principal</td><td><ol>
+    <li>Na tela Nova Adoção, o coordenador informa o CPF do adotante e clica em “Buscar”.</li>
+    <li>O sistema valida o CPF e não encontra adotante com esse número.</li>
+    <li>O sistema abre o bloco “Novo adotante” com o CPF já preenchido.</li>
+    <li>O coordenador preenche nome, e-mail, telefone, endereço (CEP, rua, número, bairro, cidade, UF) e tipo de moradia.</li>
+    <li>O coordenador clica em “Salvar adotante”.</li>
+    <li>O sistema valida os dados e grava o adotante.</li>
+    <li>O sistema mostra “Adotante cadastrado” e deixa o adotante selecionado para a adoção (UC04).</li>
+  </ol></td></tr>
+  <tr><td>Fluxos alternativos</td><td>
+    <b>2a.</b> CPF inválido (dígitos verificadores não conferem): o sistema mostra “CPF inválido”. Volta ao passo 1.<br>
+    <b>2b.</b> CPF já cadastrado: o sistema mostra os dados do adotante existente e o seleciona, sem criar cadastro novo. Segue para o UC04.<br>
+    <b>6a.</b> E-mail já usado por outro adotante: o sistema mostra “E-mail já cadastrado”. Volta ao passo 4.<br>
+    <b>6b.</b> Campo obrigatório vazio: o sistema destaca o campo. Volta ao passo 4.
+  </td></tr>
+  <tr><td>Pós-condição</td><td>Adotante registrado e selecionado; ou nada alterado.</td></tr>
+</table>
+
+<table class="uc">
+  <tr><th colspan="2">UC04 — Registrar Adoção</th></tr>
+  <tr><td>Ator</td><td>Coordenador</td></tr>
+  <tr><td>Pré-condição</td><td>Usuário autenticado com perfil coordenador e pelo menos um gato com status “disponível”.</td></tr>
+  <tr><td>Fluxo principal</td><td><ol>
+    <li>No menu Adoções, o coordenador clica em “Nova adoção”.</li>
+    <li>O coordenador busca o adotante pelo CPF e o seleciona (ou o cadastra pelo UC03).</li>
+    <li>O sistema lista somente os gatos com status “disponível”.</li>
+    <li>O coordenador marca um ou mais gatos.</li>
+    <li>O coordenador informa a data da adoção e, se quiser, observações.</li>
+    <li>O coordenador clica em “Registrar adoção”.</li>
+    <li>O sistema valida os dados.</li>
+    <li>Em uma única transação, o sistema grava a Adocao, uma linha em Adocao_Gato para cada gato e muda o status dos gatos para “adotado”.</li>
+    <li>O sistema mostra “Adoção registrada” com o resumo (adotante, gatos e data).</li>
+  </ol></td></tr>
+  <tr><td>Fluxos alternativos</td><td>
+    <b>3a.</b> Nenhum gato disponível: o sistema mostra “Não há gatos disponíveis para adoção” e encerra.<br>
+    <b>7a.</b> Nenhum gato marcado: o sistema mostra “Selecione pelo menos um gato”. Volta ao passo 4.<br>
+    <b>7b.</b> Data da adoção no futuro: o sistema mostra “A data da adoção não pode ser futura”. Volta ao passo 5.<br>
+    <b>8a.</b> Um dos gatos deixou de estar disponível enquanto o formulário estava aberto (outro coordenador o adotou): o sistema não grava nada, informa qual gato não está mais disponível e volta ao passo 3.
+  </td></tr>
+  <tr><td>Pós-condição</td><td>Adoção registrada e gatos com status “adotado”; ou nada alterado.</td></tr>
+</table>
+
+<table class="uc">
+  <tr><th colspan="2">UC05 — Gerar Relatório Mensal</th></tr>
+  <tr><td>Ator</td><td>Coordenador</td></tr>
+  <tr><td>Pré-condição</td><td>Usuário autenticado com perfil coordenador.</td></tr>
+  <tr><td>Fluxo principal</td><td><ol>
+    <li>O coordenador abre o menu Relatórios.</li>
+    <li>O sistema exibe a tela de Relatório Mensal com o mês atual selecionado.</li>
+    <li>O coordenador escolhe o mês e o ano e clica em “Gerar”.</li>
+    <li>O sistema calcula: gatos resgatados no mês, adoções registradas no mês, devoluções no mês e gatos em cuidado hoje (em tratamento e disponíveis).</li>
+    <li>O sistema exibe os indicadores e a tabela com as adoções do mês (data, adotante e gatos).</li>
+    <li>O coordenador clica em “Imprimir” e o sistema abre a versão para impressão ou PDF.</li>
+  </ol></td></tr>
+  <tr><td>Fluxos alternativos</td><td>
+    <b>3a.</b> Mês futuro: a lista de meses não oferece meses posteriores ao atual.<br>
+    <b>4a.</b> Mês sem movimentação: o sistema exibe os indicadores zerados e “Nenhuma adoção registrada neste mês”.
+  </td></tr>
+  <tr><td>Pós-condição</td><td>Nada é alterado no banco (consulta somente leitura).</td></tr>
+</table>
+
+<!-- ============================ 5 ============================ -->
+<h2 class="nova">5. Arquitetura e stack tecnológica</h2>
+
+<h3>5.1 Decisão arquitetural</h3>
+<p>O CatSaver usa arquitetura <b>cliente-servidor com API REST</b>, organizada como um <b>monolito simples</b>: front-end e API ficam no mesmo repositório. O navegador mostra as telas e faz pedidos à API em <code>/api/...</code>; o servidor Express aplica as regras (validação, permissões por perfil, transação da adoção) e conversa com o banco MariaDB; as respostas voltam em JSON. Em desenvolvimento, o Vite+ serve o front em <code>localhost:5173</code> e repassa as chamadas <code>/api</code> para o Express pelo proxy, como já está configurado no repositório.</p>
+<p>A escolha do monolito é consciente: o projeto é mantido por uma pessoa só e a ONG precisa de algo simples de rodar e hospedar. Microsserviços ou um app nativo trariam custo e complexidade sem benefício para esse volume (dezenas de cadastros por mês).</p>
+
+<div class="fig">
+<svg viewBox="0 0 700 150" xmlns="http://www.w3.org/2000/svg">
+  <rect class="card" x="20" y="30" width="180" height="90" rx="6"/>
+  <text class="t b" x="110" y="55" text-anchor="middle">Cliente (navegador)</text>
+  <text class="s" x="110" y="72" text-anchor="middle">HTML, CSS e JavaScript</text>
+  <text class="s" x="110" y="85" text-anchor="middle">empacotados com Vite+</text>
+  <text class="s" x="110" y="98" text-anchor="middle">desktop e celular</text>
+
+  <rect class="card" x="260" y="30" width="180" height="90" rx="6"/>
+  <text class="t b" x="350" y="55" text-anchor="middle">Servidor (API REST)</text>
+  <text class="s" x="350" y="72" text-anchor="middle">Node.js + Express</text>
+  <text class="s" x="350" y="85" text-anchor="middle">rotas, validação, sessão,</text>
+  <text class="s" x="350" y="98" text-anchor="middle">permissões por perfil</text>
+
+  <rect class="card" x="500" y="30" width="180" height="90" rx="6"/>
+  <text class="t b" x="590" y="55" text-anchor="middle">Banco de dados</text>
+  <text class="s" x="590" y="72" text-anchor="middle">MariaDB</text>
+  <text class="s" x="590" y="85" text-anchor="middle">Usuario, Adotante, Gato,</text>
+  <text class="s" x="590" y="98" text-anchor="middle">Adocao, Adocao_Gato</text>
+
+  <line class="rel" x1="200" y1="65" x2="260" y2="65"/><polygon points="260,65 253,61 253,69" fill="#333"/>
+  <line class="rel" x1="260" y1="88" x2="200" y2="88"/><polygon points="200,88 207,84 207,92" fill="#333"/>
+  <text class="s" x="230" y="58" text-anchor="middle">HTTP</text>
+  <text class="s" x="230" y="102" text-anchor="middle">JSON</text>
+
+  <line class="rel" x1="440" y1="65" x2="500" y2="65"/><polygon points="500,65 493,61 493,69" fill="#333"/>
+  <line class="rel" x1="500" y1="88" x2="440" y2="88"/><polygon points="440,88 447,84 447,92" fill="#333"/>
+  <text class="s" x="470" y="58" text-anchor="middle">SQL</text>
+  <text class="s" x="470" y="102" text-anchor="middle">linhas</text>
+</svg>
+<div class="legenda">Figura 2 — Arquitetura cliente-servidor do CatSaver.</div>
+</div>
+
+<h4>Principais rotas da API</h4>
+<table>
+  <tr><th style="width:12%">Método</th><th style="width:40%">Rota</th><th>Uso</th></tr>
+  <tr><td>GET</td><td><code>/api/health</code></td><td>Verifica se a API está no ar (já implementada no PIE II)</td></tr>
+  <tr><td>POST</td><td><code>/api/auth/login</code> · <code>/api/auth/logout</code></td><td>UC01 — entrar e sair</td></tr>
+  <tr><td>GET · POST</td><td><code>/api/gatos</code> (filtros <code>?status=&amp;busca=</code>)</td><td>Listar e cadastrar gatos (UC02)</td></tr>
+  <tr><td>PUT</td><td><code>/api/gatos/:id</code></td><td>Editar gato (RF04)</td></tr>
+  <tr><td>GET · POST</td><td><code>/api/adotantes</code> (filtro <code>?cpf=</code>)</td><td>Buscar e cadastrar adotante (UC03) — só coordenador</td></tr>
+  <tr><td>GET · POST</td><td><code>/api/adocoes</code> (filtros <code>?inicio=&amp;fim=</code>)</td><td>Listar e registrar adoções (UC04) — só coordenador</td></tr>
+  <tr><td>PATCH</td><td><code>/api/adocoes/:id/gatos/:idGato/devolucao</code></td><td>Registrar devolução (RF07)</td></tr>
+  <tr><td>GET</td><td><code>/api/relatorios/mensal?mes=&amp;ano=</code></td><td>Relatório mensal (UC05)</td></tr>
+</table>
+
+<h3>5.2 Stack tecnológica</h3>
+<table>
+  <tr><th style="width:15%">Camada</th><th style="width:19%">Tecnologia</th><th>Domínio do aluno</th><th>Custo</th><th>Comunidade de suporte</th></tr>
+  <tr><td>Frontend</td><td>HTML, CSS e JavaScript com Vite+</td><td>Já uso HTML, CSS e JavaScript; o esqueleto com Vite+ já está criado e funcionando no repositório.</td><td>Gratuito e de código aberto. O resultado são arquivos estáticos, que podem ser hospedados de graça.</td><td>HTML, CSS e JS têm a maior documentação da web (MDN). O Vite tem documentação oficial e comunidade grande.</td></tr>
+  <tr><td>Backend</td><td>Node.js com Express</td><td>Mesma linguagem do front (JavaScript); a rota <code>/api/health</code> já foi feita no PIE II.</td><td>Gratuito e de código aberto; roda em servidores pequenos e baratos.</td><td>Express é o framework Node mais usado, com muitos tutoriais e respostas no Stack Overflow.</td></tr>
+  <tr><td>Banco de dados</td><td>MariaDB</td><td>SQL visto nas disciplinas de banco de dados; o MER se traduz direto em tabelas.</td><td>Gratuito e de código aberto; disponível na maioria das hospedagens sem custo extra de licença.</td><td>Compatível com MySQL, então a documentação e as dúvidas de MySQL também servem.</td></tr>
+</table>
+<p>Bibliotecas de apoio previstas: <code>mysql2</code> (conexão com o MariaDB), <code>bcrypt</code> (hash de senhas, RNF02), <code>express-session</code> (sessão com cookie httpOnly) e <code>dotenv</code> (variáveis do <code>.env</code>, já adotado no repositório).</p>
+
+<h3>5.3 Wireframes</h3>
+<p>Wireframes de média fidelidade: caixas, campos e textos reais, sem cores nem imagens. Cada tela mostra à esquerda a versão desktop e à direita a versão no celular (360 px). Campos marcados com * são obrigatórios. Princípios aplicados em todas as telas: menu sempre no topo e no mesmo lugar, mensagem de sucesso após salvar e aviso claro de erro junto ao campo, listas de seleção em vez de texto livre sempre que possível, rótulo visível em todo campo e botões grandes no celular.</p>
+
+<!-- WF1 Login -->
+<div class="wf">
+<h4>Tela 1 — Login (UC01)</h4>
+<svg viewBox="0 0 680 310" xmlns="http://www.w3.org/2000/svg">
+  <text class="lbl" x="0" y="10">DESKTOP</text><text class="lbl" x="495" y="10">CELULAR</text>
+  <rect class="fr" x="0" y="16" width="470" height="290"/>
+  <rect class="card" x="135" y="50" width="200" height="225"/>
+  <text class="h" x="235" y="78" text-anchor="middle">CatSaver</text>
+  <text class="s" x="235" y="92" text-anchor="middle">Gestão de resgates e adoções</text>
+  <text class="t" x="150" y="114">E-mail *</text><rect class="fld" x="150" y="118" width="170" height="20"/>
+  <text class="t" x="150" y="152">Senha *</text><rect class="fld" x="150" y="156" width="170" height="20"/>
+  <text class="s" x="156" y="169">••••••••</text>
+  <rect class="msg" x="150" y="186" width="170" height="20"/><text class="s" x="156" y="199">⚠ E-mail ou senha incorretos</text>
+  <rect class="btnp" x="150" y="216" width="170" height="24"/><text class="w" x="235" y="231" text-anchor="middle">Entrar</text>
+  <text class="s" x="235" y="260" text-anchor="middle">Esqueceu a senha? Fale com a coordenação.</text>
+
+  <rect class="fr" x="495" y="16" width="180" height="290" rx="10"/>
+  <text class="h" x="585" y="62" text-anchor="middle">CatSaver</text>
+  <text class="s" x="585" y="76" text-anchor="middle">Gestão de resgates e adoções</text>
+  <text class="t" x="508" y="102">E-mail *</text><rect class="fld" x="508" y="106" width="154" height="26"/>
+  <text class="t" x="508" y="148">Senha *</text><rect class="fld" x="508" y="152" width="154" height="26"/>
+  <rect class="msg" x="508" y="188" width="154" height="20"/><text class="s" x="514" y="201">⚠ E-mail ou senha incorretos</text>
+  <rect class="btnp" x="508" y="218" width="154" height="32"/><text class="w" x="585" y="238" text-anchor="middle">Entrar</text>
+</svg>
+<ul>
+  <li>A mensagem de erro (área tracejada) só aparece após uma tentativa errada e não diz qual campo está incorreto (UC01, 4a).</li>
+  <li>Enter no campo de senha também envia o formulário. Após 5 erros, a mensagem informa o bloqueio de 15 minutos (4c).</li>
+  <li>Celular: campos ocupam toda a largura e o botão tem 32 px de altura ou mais, para o toque.</li>
+</ul>
+</div>
+
+<!-- WF2 Listagem de Gatos -->
+<div class="wf">
+<h4>Tela 2 — Listagem de Gatos (RF03, ponto de partida do UC02)</h4>
+<svg viewBox="0 0 680 310" xmlns="http://www.w3.org/2000/svg">
+  <text class="lbl" x="0" y="10">DESKTOP</text><text class="lbl" x="495" y="10">CELULAR</text>
+  <rect class="fr" x="0" y="16" width="470" height="290"/>
+  <rect class="nav" x="0" y="16" width="470" height="26"/>
+  <text class="t b" x="10" y="33">CatSaver</text>
+  <text class="t" x="250" y="33"><tspan class="b">Gatos</tspan>    Adoções    Relatórios    Sair</text>
+  <text class="h" x="15" y="66">Gatos</text>
+  <rect class="btnp" x="370" y="52" width="85" height="20"/><text class="w" x="412" y="65" text-anchor="middle">+ Novo gato</text>
+  <rect class="fld" x="15" y="80" width="120" height="18"/><text class="s" x="20" y="92">Status: Todos ▾</text>
+  <rect class="fld" x="145" y="80" width="180" height="18"/><text class="s" x="150" y="92">🔍 Buscar pelo nome</text>
+  <rect class="card" x="15" y="106" width="440" height="18"/>
+  <text class="t b" x="20" y="118">Nome</text><text class="t b" x="110" y="118">Sexo</text><text class="t b" x="170" y="118">Idade</text><text class="t b" x="230" y="118">Resgate</text><text class="t b" x="300" y="118">Status</text><text class="t b" x="400" y="118">Ações</text>
+  <g>
+    <text class="t" x="20" y="140">Mingau</text><text class="t" x="110" y="140">Macho</text><text class="t" x="170" y="140">~2 anos</text><text class="t" x="230" y="140">03/10/2026</text><rect class="msg" x="298" y="131" width="58" height="13"/><text class="s" x="303" y="141">Disponível</text><text class="t" x="400" y="140">Editar</text>
+    <line class="ln" x1="15" y1="148" x2="455" y2="148"/>
+    <text class="t" x="20" y="164">Pretinha</text><text class="t" x="110" y="164">Fêmea</text><text class="t" x="170" y="164">~4 meses</text><text class="t" x="230" y="164">15/10/2026</text><rect class="msg" x="298" y="155" width="70" height="13"/><text class="s" x="303" y="165">Em tratamento</text><text class="t" x="400" y="164">Editar</text>
+    <line class="ln" x1="15" y1="172" x2="455" y2="172"/>
+    <text class="t" x="20" y="188">Frajola</text><text class="t" x="110" y="188">Macho</text><text class="t" x="170" y="188">~1 ano</text><text class="t" x="230" y="188">20/09/2026</text><rect class="msg" x="298" y="179" width="50" height="13"/><text class="s" x="303" y="189">Adotado</text><text class="t" x="400" y="188">Editar</text>
+    <line class="ln" x1="15" y1="196" x2="455" y2="196"/>
+    <text class="t" x="20" y="212">Amora</text><text class="t" x="110" y="212">Fêmea</text><text class="t" x="170" y="212">~3 anos</text><text class="t" x="230" y="212">11/10/2026</text><rect class="msg" x="298" y="203" width="58" height="13"/><text class="s" x="303" y="213">Disponível</text><text class="t" x="400" y="212">Editar</text>
+    <line class="ln" x1="15" y1="220" x2="455" y2="220"/>
+  </g>
+  <text class="s" x="15" y="245">Mostrando 1–20 de 43 gatos</text>
+  <text class="t" x="455" y="245" text-anchor="end">‹ Anterior  1  2  3  Próxima ›</text>
+  <rect class="msg" x="15" y="262" width="230" height="20"/><text class="s" x="21" y="275">✓ Gato cadastrado com sucesso (aparece após salvar)</text>
+
+  <rect class="fr" x="495" y="16" width="180" height="290" rx="10"/>
+  <rect class="nav" x="495" y="16" width="180" height="26"/>
+  <text class="t b" x="505" y="33">CatSaver</text><text class="t b" x="660" y="33">☰</text>
+  <text class="h" x="505" y="62">Gatos</text>
+  <rect class="fld" x="505" y="70" width="80" height="20"/><text class="s" x="510" y="83">Status ▾</text>
+  <rect class="fld" x="590" y="70" width="75" height="20"/><text class="s" x="595" y="83">🔍 Nome</text>
+  <rect class="card" x="505" y="98" width="160" height="40"/><text class="t b" x="512" y="113">Mingau</text><text class="s" x="512" y="127">Macho · ~2 anos</text><rect class="msg" x="605" y="105" width="52" height="13"/><text class="s" x="609" y="115">Disponível</text>
+  <rect class="card" x="505" y="144" width="160" height="40"/><text class="t b" x="512" y="159">Pretinha</text><text class="s" x="512" y="173">Fêmea · ~4 meses</text><rect class="msg" x="595" y="151" width="62" height="13"/><text class="s" x="598" y="161">Em tratamento</text>
+  <rect class="card" x="505" y="190" width="160" height="40"/><text class="t b" x="512" y="205">Frajola</text><text class="s" x="512" y="219">Macho · ~1 ano</text><rect class="msg" x="610" y="197" width="47" height="13"/><text class="s" x="614" y="207">Adotado</text>
+  <circle class="btnp" cx="645" cy="275" r="16"/><text class="w" x="645" y="280" text-anchor="middle" style="font-size:14px">+</text>
+</svg>
+<ul>
+  <li>Abre já filtrada em “Todos”; o filtro de status é uma lista de seleção (Em tratamento, Disponível, Adotado). A busca filtra pelo nome enquanto se digita.</li>
+  <li>“+ Novo gato” abre a Tela 3. A mensagem de sucesso aparece aqui depois de salvar e some sozinha após alguns segundos.</li>
+  <li>Celular: a tabela vira uma lista de cartões, o menu vira o ícone ☰ e o botão “+” flutuante fica no canto inferior, ao alcance do polegar.</li>
+</ul>
+</div>
+
+<!-- WF3 Cadastro de Gato -->
+<div class="wf">
+<h4>Tela 3 — Cadastro de Gato (UC02)</h4>
+<svg viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg">
+  <text class="lbl" x="0" y="10">DESKTOP</text><text class="lbl" x="495" y="10">CELULAR</text>
+  <rect class="fr" x="0" y="16" width="470" height="310"/>
+  <rect class="nav" x="0" y="16" width="470" height="26"/>
+  <text class="t b" x="10" y="33">CatSaver</text>
+  <text class="t" x="250" y="33"><tspan class="b">Gatos</tspan>    Adoções    Relatórios    Sair</text>
+  <text class="s" x="15" y="56">Gatos › Novo gato</text>
+  <text class="h" x="15" y="72">Novo gato</text>
+  <text class="t" x="15" y="92">Nome *</text><rect class="fld" x="15" y="96" width="210" height="18"/>
+  <text class="t" x="245" y="92">Sexo *</text><rect class="fld" x="245" y="96" width="210" height="18"/><text class="s" x="250" y="108">Selecione ▾</text>
+  <text class="t" x="15" y="128">Data de nascimento aproximada</text><rect class="fld" x="15" y="132" width="210" height="18"/><text class="s" x="20" y="144">dd/mm/aaaa 📅</text>
+  <text class="t" x="245" y="128">Pelagem</text><rect class="fld" x="245" y="132" width="210" height="18"/><text class="s" x="250" y="144">Ex.: preto, frajola, tricolor</text>
+  <text class="t" x="15" y="164">Data do resgate *</text><rect class="fld" x="15" y="168" width="210" height="18"/><text class="s" x="20" y="180">dd/mm/aaaa 📅</text>
+  <text class="t" x="245" y="164">Local do resgate *</text><rect class="fld" x="245" y="168" width="210" height="18"/>
+  <text class="s" x="20" y="196" style="fill:#333">⚠ A data do resgate não pode ser futura</text>
+  <rect class="fld" x="15" y="205" width="10" height="10"/><text class="t" x="30" y="214">Castrado</text>
+  <rect class="fld" x="95" y="205" width="10" height="10"/><text class="t" x="110" y="214">Vacinado</text>
+  <text class="t" x="245" y="202">Status *</text><rect class="fld" x="245" y="206" width="210" height="18"/><text class="s" x="250" y="218">Em tratamento ▾</text>
+  <text class="t" x="15" y="240">Observações</text><rect class="fld" x="15" y="244" width="440" height="36"/><text class="s" x="20" y="256">Temperamento, cuidados especiais...</text>
+  <rect class="btn" x="285" y="292" width="80" height="22"/><text class="t" x="325" y="306" text-anchor="middle">Cancelar</text>
+  <rect class="btnp" x="375" y="292" width="80" height="22"/><text class="w" x="415" y="306" text-anchor="middle">Salvar</text>
+
+  <rect class="fr" x="495" y="16" width="180" height="310" rx="10"/>
+  <rect class="nav" x="495" y="16" width="180" height="26"/>
+  <text class="t b" x="505" y="33">‹ Novo gato</text><text class="t b" x="660" y="33">☰</text>
+  <text class="t" x="505" y="58">Nome *</text><rect class="fld" x="505" y="62" width="160" height="20"/>
+  <text class="t" x="505" y="96">Sexo *</text><rect class="fld" x="505" y="100" width="160" height="20"/><text class="s" x="510" y="113">Selecione ▾</text>
+  <text class="t" x="505" y="134">Data nasc. aproximada</text><rect class="fld" x="505" y="138" width="160" height="20"/>
+  <text class="t" x="505" y="172">Data do resgate *</text><rect class="fld" x="505" y="176" width="160" height="20"/>
+  <text class="t" x="505" y="210">Local do resgate *</text><rect class="fld" x="505" y="214" width="160" height="20"/>
+  <text class="s" x="505" y="250">… demais campos em uma coluna</text>
+  <rect class="btnp" x="505" y="266" width="160" height="26"/><text class="w" x="585" y="283" text-anchor="middle">Salvar</text>
+  <text class="t" x="585" y="310" text-anchor="middle">Cancelar</text>
+</svg>
+<ul>
+  <li>Os campos são os mesmos atributos da entidade Gato (Seção 3.2). Sexo e status são listas de seleção; castrado e vacinado são caixas de marcar.</li>
+  <li>Os erros aparecem logo abaixo do campo com problema (UC02, 5a a 5c) e o formulário mantém o que já foi digitado.</li>
+  <li>“Cancelar” volta para a Listagem sem gravar. Celular: formulário em uma coluna, com “Salvar” em destaque e largura total.</li>
+</ul>
+</div>
+
+<!-- WF4 Nova Adoção -->
+<div class="wf">
+<h4>Tela 4 — Nova Adoção (UC03 e UC04)</h4>
+<svg viewBox="0 0 680 350" xmlns="http://www.w3.org/2000/svg">
+  <text class="lbl" x="0" y="10">DESKTOP</text><text class="lbl" x="495" y="10">CELULAR</text>
+  <rect class="fr" x="0" y="16" width="470" height="330"/>
+  <rect class="nav" x="0" y="16" width="470" height="26"/>
+  <text class="t b" x="10" y="33">CatSaver</text>
+  <text class="t" x="250" y="33">Gatos    <tspan class="b">Adoções</tspan>    Relatórios    Sair</text>
+  <text class="h" x="15" y="64">Nova adoção</text>
+  <text class="t b" x="15" y="84">1. Adotante</text>
+  <text class="t" x="15" y="100">CPF *</text><rect class="fld" x="15" y="104" width="140" height="18"/><text class="s" x="20" y="116">000.000.000-00</text>
+  <rect class="btn" x="162" y="104" width="55" height="18"/><text class="t" x="189" y="116" text-anchor="middle">Buscar</text>
+  <text class="s" x="225" y="116">CPF não encontrado. Preencha o novo adotante:</text>
+  <rect class="card" x="15" y="128" width="440" height="88"/>
+  <text class="s" x="22" y="140">Nome *</text><rect class="fld" x="22" y="143" width="140" height="15"/>
+  <text class="s" x="170" y="140">E-mail *</text><rect class="fld" x="170" y="143" width="140" height="15"/>
+  <text class="s" x="318" y="140">Telefone *</text><rect class="fld" x="318" y="143" width="130" height="15"/>
+  <text class="s" x="22" y="170">CEP</text><rect class="fld" x="22" y="173" width="60" height="15"/>
+  <text class="s" x="90" y="170">Rua *</text><rect class="fld" x="90" y="173" width="160" height="15"/>
+  <text class="s" x="258" y="170">Nº *</text><rect class="fld" x="258" y="173" width="40" height="15"/>
+  <text class="s" x="306" y="170">Bairro *</text><rect class="fld" x="306" y="173" width="142" height="15"/>
+  <text class="s" x="22" y="200">Cidade *</text><rect class="fld" x="60" y="191" width="100" height="15"/>
+  <text class="s" x="168" y="200">UF *</text><rect class="fld" x="188" y="191" width="40" height="15"/><text class="s" x="192" y="202">SP ▾</text>
+  <text class="s" x="236" y="200">Moradia *</text><rect class="fld" x="272" y="191" width="80" height="15"/><text class="s" x="276" y="202">Casa ▾</text>
+  <rect class="btn" x="368" y="190" width="80" height="17"/><text class="s" x="408" y="202" text-anchor="middle" style="fill:#333">Salvar adotante</text>
+  <text class="t b" x="15" y="236">2. Gatos (somente disponíveis)</text>
+  <rect class="fld" x="15" y="242" width="10" height="10"/><text class="t" x="30" y="251">Mingau · macho · ~2 anos</text>
+  <rect class="fld" x="15" y="258" width="10" height="10"/><text class="t" x="30" y="267">Amora · fêmea · ~3 anos</text>
+  <rect class="fld" x="15" y="274" width="10" height="10"/><text class="t" x="30" y="283">Tigrão · macho · ~6 meses</text>
+  <text class="t b" x="245" y="236">3. Dados da adoção</text>
+  <text class="t" x="245" y="252">Data da adoção *</text><rect class="fld" x="245" y="256" width="210" height="16"/><text class="s" x="250" y="267">27/10/2026 📅</text>
+  <text class="t" x="245" y="284">Observações</text><rect class="fld" x="245" y="288" width="210" height="22"/>
+  <rect class="btn" x="285" y="318" width="80" height="20"/><text class="t" x="325" y="331" text-anchor="middle">Cancelar</text>
+  <rect class="btnp" x="370" y="318" width="85" height="20"/><text class="w" x="412" y="331" text-anchor="middle">Registrar adoção</text>
+
+  <rect class="fr" x="495" y="16" width="180" height="330" rx="10"/>
+  <rect class="nav" x="495" y="16" width="180" height="26"/>
+  <text class="t b" x="505" y="33">‹ Nova adoção</text><text class="t b" x="660" y="33">☰</text>
+  <text class="lbl" x="505" y="58">Passo 1 de 3 · Adotante</text>
+  <rect class="card" x="505" y="64" width="160" height="4"/><rect class="btnp" x="505" y="64" width="53" height="4"/>
+  <text class="t" x="505" y="86">CPF *</text><rect class="fld" x="505" y="90" width="110" height="22"/>
+  <rect class="btn" x="620" y="90" width="45" height="22"/><text class="s" x="642" y="104" text-anchor="middle" style="fill:#333">Buscar</text>
+  <text class="t" x="505" y="130">Nome *</text><rect class="fld" x="505" y="134" width="160" height="20"/>
+  <text class="t" x="505" y="168">E-mail *</text><rect class="fld" x="505" y="172" width="160" height="20"/>
+  <text class="t" x="505" y="206">Telefone *</text><rect class="fld" x="505" y="210" width="160" height="20"/>
+  <text class="s" x="505" y="246">… endereço e moradia</text>
+  <rect class="btnp" x="505" y="296" width="160" height="28"/><text class="w" x="585" y="314" text-anchor="middle">Próximo: gatos ›</text>
+</svg>
+<ul>
+  <li>Busca por CPF primeiro: se o adotante já existe, os dados aparecem preenchidos e somente leitura (UC03, 2b); se não, abre o bloco “Novo adotante”. Os campos batem com a entidade Adotante.</li>
+  <li>A lista de gatos mostra apenas os com status “Disponível”; é possível marcar mais de um (relação N:N com Adocao_Gato). Se não houver nenhum, a seção mostra “Não há gatos disponíveis para adoção” (UC04, 3a).</li>
+  <li>“Registrar adoção” fica desabilitado até haver adotante selecionado e pelo menos um gato marcado (UC04, 7a). Ao concluir, aparece “✓ Adoção registrada” com o resumo.</li>
+  <li>Tela visível só para o perfil coordenador (RNF03). Celular: o formulário vira um passo a passo de 3 etapas com barra de progresso, para não ficar longo demais.</li>
+</ul>
+</div>
+
+<!-- WF5 Relatório Mensal -->
+<div class="wf">
+<h4>Tela 5 — Relatório Mensal (UC05)</h4>
+<svg viewBox="0 0 680 310" xmlns="http://www.w3.org/2000/svg">
+  <text class="lbl" x="0" y="10">DESKTOP</text><text class="lbl" x="495" y="10">CELULAR</text>
+  <rect class="fr" x="0" y="16" width="470" height="290"/>
+  <rect class="nav" x="0" y="16" width="470" height="26"/>
+  <text class="t b" x="10" y="33">CatSaver</text>
+  <text class="t" x="250" y="33">Gatos    Adoções    <tspan class="b">Relatórios</tspan>    Sair</text>
+  <text class="h" x="15" y="66">Relatório mensal</text>
+  <rect class="fld" x="15" y="76" width="90" height="18"/><text class="s" x="20" y="88">Outubro ▾</text>
+  <rect class="fld" x="112" y="76" width="60" height="18"/><text class="s" x="117" y="88">2026 ▾</text>
+  <rect class="btnp" x="180" y="76" width="60" height="18"/><text class="w" x="210" y="88" text-anchor="middle">Gerar</text>
+  <rect class="btn" x="385" y="76" width="70" height="18"/><text class="t" x="420" y="88" text-anchor="middle">Imprimir</text>
+  <rect class="card" x="15" y="104" width="102" height="50"/><text class="s" x="22" y="118">Resgatados no mês</text><text class="h" x="22" y="142">21</text>
+  <rect class="card" x="127" y="104" width="102" height="50"/><text class="s" x="134" y="118">Adoções no mês</text><text class="h" x="134" y="142">13</text>
+  <rect class="card" x="239" y="104" width="102" height="50"/><text class="s" x="246" y="118">Devoluções no mês</text><text class="h" x="246" y="142">1</text>
+  <rect class="card" x="351" y="104" width="104" height="50"/><text class="s" x="358" y="118">Em cuidado hoje</text><text class="h" x="358" y="142">38</text>
+  <text class="t b" x="15" y="176">Adoções do mês</text>
+  <rect class="card" x="15" y="182" width="440" height="18"/>
+  <text class="t b" x="20" y="194">Data</text><text class="t b" x="100" y="194">Adotante</text><text class="t b" x="260" y="194">Gato(s)</text>
+  <text class="t" x="20" y="216">03/10/2026</text><text class="t" x="100" y="216">Adotante A</text><text class="t" x="260" y="216">Mel, Pipoca</text>
+  <line class="ln" x1="15" y1="224" x2="455" y2="224"/>
+  <text class="t" x="20" y="240">09/10/2026</text><text class="t" x="100" y="240">Adotante B</text><text class="t" x="260" y="240">Frajola</text>
+  <line class="ln" x1="15" y1="248" x2="455" y2="248"/>
+  <text class="t" x="20" y="264">14/10/2026</text><text class="t" x="100" y="264">Adotante C</text><text class="t" x="260" y="264">Nino</text>
+  <line class="ln" x1="15" y1="272" x2="455" y2="272"/>
+  <text class="s" x="15" y="292">Gerado em 27/10/2026 por Coordenação</text>
+
+  <rect class="fr" x="495" y="16" width="180" height="290" rx="10"/>
+  <rect class="nav" x="495" y="16" width="180" height="26"/>
+  <text class="t b" x="505" y="33">Relatórios</text><text class="t b" x="660" y="33">☰</text>
+  <rect class="fld" x="505" y="52" width="100" height="22"/><text class="s" x="510" y="66">Outubro/2026 ▾</text>
+  <rect class="btnp" x="612" y="52" width="53" height="22"/><text class="w" x="638" y="66" text-anchor="middle">Gerar</text>
+  <rect class="card" x="505" y="82" width="77" height="44"/><text class="s" x="511" y="95">Resgatados</text><text class="h" x="511" y="117">21</text>
+  <rect class="card" x="588" y="82" width="77" height="44"/><text class="s" x="594" y="95">Adoções</text><text class="h" x="594" y="117">13</text>
+  <rect class="card" x="505" y="132" width="77" height="44"/><text class="s" x="511" y="145">Devoluções</text><text class="h" x="511" y="167">1</text>
+  <rect class="card" x="588" y="132" width="77" height="44"/><text class="s" x="594" y="145">Em cuidado</text><text class="h" x="594" y="167">38</text>
+  <rect class="card" x="505" y="184" width="160" height="34"/><text class="t" x="511" y="198">03/10 · Adotante A</text><text class="s" x="511" y="211">Mel, Pipoca</text>
+  <rect class="card" x="505" y="224" width="160" height="34"/><text class="t" x="511" y="238">09/10 · Adotante B</text><text class="s" x="511" y="251">Frajola</text>
+  <rect class="btn" x="505" y="270" width="160" height="26"/><text class="t" x="585" y="287" text-anchor="middle">Imprimir</text>
+</svg>
+<ul>
+  <li>Abre com o mês atual; a lista de meses não oferece meses futuros (UC05, 3a). Os números são calculados na hora, a partir de Gato, Adocao e Adocao_Gato.</li>
+  <li>Sem movimentação no mês, os cartões mostram 0 e a tabela mostra “Nenhuma adoção registrada neste mês” (4a).</li>
+  <li>“Imprimir” gera uma versão limpa, sem menu, para salvar em PDF e enviar aos apoiadores. Celular: os quatro indicadores ficam em grade 2 × 2 e a tabela vira cartões.</li>
+</ul>
+</div>
+
+<!-- ============================ 6 ============================ -->
+<h2 class="nova">6. Escopo do projeto</h2>
+
+<h3>6.1 MVP — Produto Mínimo Viável</h3>
+<p>O MVP é o menor sistema que já resolve o problema principal da CatSaver: saber, com certeza, quais gatos estão disponíveis e quem adotou cada um.</p>
+<table>
+  <tr><th style="width:50%">Dentro do MVP</th><th>Fora do MVP</th></tr>
+  <tr><td><ul>
+    <li><b>RF01</b> Autenticação com e-mail e senha (Must)</li>
+    <li><b>RF02</b> Cadastro de gatos (Must)</li>
+    <li><b>RF05</b> Cadastro de adotantes (Must)</li>
+    <li><b>RF06</b> Registro de adoção com mudança automática de status (Must)</li>
+    <li>Requisitos não funcionais RNF01 a RNF06</li>
+  </ul></td>
+  <td><ul>
+    <li><b>Próximas versões (Should):</b> listagem com filtros (RF03), edição de gato (RF04), devolução (RF07), listagem de adoções por período (RF08), relatório mensal (RF09), gestão de voluntários (RF10)</li>
+    <li><b>Se sobrar tempo (Could):</b> exportação CSV (RF11), vitrine pública (RF12)</li>
+    <li><b>Não será feito (Won't):</b> app mobile nativo, pagamentos online, prontuário veterinário completo, integração com redes sociais</li>
+  </ul></td></tr>
+</table>
+
+<h3>Conferência de coerência</h3>
+<p>Cada requisito Must have tem um caso de uso, cada caso de uso tem ao menos uma tela e os campos das telas existem no MER.</p>
+<table>
+  <tr><th>Requisito</th><th>Caso de uso</th><th>Tela</th><th>Entidades usadas</th></tr>
+  <tr><td>RF01 (Must)</td><td>UC01 Autenticar no Sistema</td><td>Tela 1 — Login</td><td>Usuario</td></tr>
+  <tr><td>RF02 (Must)</td><td>UC02 Cadastrar Gato</td><td>Telas 2 e 3 — Listagem e Cadastro de Gato</td><td>Gato, Usuario</td></tr>
+  <tr><td>RF05 (Must)</td><td>UC03 Cadastrar Adotante</td><td>Tela 4 — Nova Adoção (bloco Adotante)</td><td>Adotante</td></tr>
+  <tr><td>RF06 (Must)</td><td>UC04 Registrar Adoção</td><td>Tela 4 — Nova Adoção</td><td>Adocao, Adocao_Gato, Gato, Adotante, Usuario</td></tr>
+  <tr><td>RF09 (Should)</td><td>UC05 Gerar Relatório Mensal</td><td>Tela 5 — Relatório Mensal</td><td>Gato, Adocao, Adocao_Gato (calculado)</td></tr>
+</table>
+
+</body>
+</html>
