@@ -7,11 +7,12 @@
     <title>CatSaver</title>
   </head>
   <body>
-    <main>
-      <h1>CatSaver</h1>
-      <p>Resgatamos, cuidamos e encontramos um novo lar para gatos abandonados.</p>
-      <p id="status">Status da API: carregando...</p>
-    </main>
+    <header id="menu" class="menu" hidden></header>
+    <main id="app"><p class="carregando">Carregando...</p></main>
+    <footer class="rodape">
+      CatSaver · Resgatamos, cuidamos e encontramos um novo lar para gatos abandonados.
+      <span id="status">API: verificando...</span>
+    </footer>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

@@ -1,0 +1,19 @@
+services:
+  db:
+    image: mariadb:11
+    container_name: catsaver-db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:-catsaver}
+      MARIADB_DATABASE: ${DB_NAME:-catsaver}
+      MARIADB_USER: ${DB_USER:-catsaver}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-catsaver}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+      - catsaver-data:/var/lib/mysql
+
+volumes:
+  catsaver-data:
